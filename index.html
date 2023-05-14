@@ -36,11 +36,11 @@
                     <div class="form-group row">
                         <label for="selLoai" class="col-sm-2 col-form-label">Show</label>
                         <div class="col-sm-10">
-                            <select class="form-select" aria-label="Default select example" id="selLoai">
-                                <option selected>Chọn Loại nhân viên</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <select class="form-select" id="selLoai">
+                                <option value="all">Chọn Loại nhân viên</option>
+                                <option value="1">Sinh Viên</option>
+                                <option value="2">Nhân Viên</option>
+                                <option value="3">Khách Hàng</option>
                             </select>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                             <th>Họ và Tên</th>
                             <th>Địa chỉ</th>
                             <th>Email</th>
-                            <th></th>
+                            <th>Loại</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -77,44 +77,56 @@
                         <div class="modal-body">
                             <form id="form">
                                 <div class="person">
+
                                     <div class="form-floating mb-3">
+                                        <div class="mb-2" id="error-taikhoan"></div>
                                         <input type="text" class="form-control" id="id"
                                             placeholder="Nhập mã người dùng">
                                         <label for="maNguoiDung">Mã Người Dùng</label>
                                     </div>
                                     <div class="form-floating mb-3">
+                                        <div class="mb-2" id="error-name"></div>
                                         <input type="text" class="form-control" id="name" placeholder="Nhập Họ và tên">
                                         <label for="hoTen">Họ và Tên</label>
+                                        <span class="sp-thongbao" id="tbTen"></span>
                                     </div>
                                     <div class="form-floating mb-3">
+                                        <div class="mb-2" id="error-email"></div>
                                         <input type="email" class="form-control" id="email"
                                             placeholder="name@example.com">
                                         <label for="email">Email</label>
+                                        <span class="sp-thongbao" id="tbEmail"></span>
                                     </div>
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="address" placeholder="Nhập Địa chỉ">
                                         <label for="diaChi">Địa Chỉ</label>
+                                        <span class="sp-thongbao" id="tbDiaChi"></span>
                                     </div>
+
                                     <select class="form-select" id="chonNguoiDung">
+                                        <div class="mb-2" id="error-chucvu"></div>
                                         <option value="0">Chọn loại người dùng</option>
                                         <option value="1">Sinh Viên</option>
                                         <option value="2">Nhân Viên</option>
                                         <option value="3">Khách Hàng</option>
                                     </select>
-                                    <div id="optionAlert"></div>
+                                    <span class="sp-thongbao" id="tbUser"></span>
                                 </div>
                                 <div id="sinhVienInput" class="mt-2" style="display: none ;">
                                     <div class=" form-floating mb-3">
                                         <input type="text" class="form-control" id="diemToan" placeholder="Nhập">
                                         <label for="diemToan">Điểm Toán</label>
+                                        <span class="sp-thongbao" id="tbDiemToan"></span>
                                     </div>
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="diemLy" placeholder="Nhập">
                                         <label for="diemLy">Điểm Lý</label>
+                                        <span class="sp-thongbao" id="tbDiemLy"></span>
                                     </div>
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="diemHoa" placeholder="Nhập">
                                         <label for="diemHoa">Điểm Hóa</label>
+                                        <span class="sp-thongbao" id="tbDiemHoa"></span>
                                     </div>
                                 </div>
 
@@ -122,10 +134,12 @@
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="soNgayLam" placeholder="Nhập">
                                         <label for="soNgayLam">Sô Ngày Làm</label>
+                                        <span class="sp-thongbao" id="tbgioLam"></span>
                                     </div>
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="luong" placeholder="Nhập">
                                         <label for="luong">Lương</label>
+                                        <span class="sp-thongbao" id="tbLuongTheoNgay"></span>
                                     </div>
 
                                 </div>
@@ -135,14 +149,17 @@
                                         <input type="text" class="form-control" id="tenCongTy"
                                             placeholder="Nhập Địa chỉ">
                                         <label for="tenCongTy">Tên Công ty</label>
+                                        <span class="sp-thongbao" id="tbCongTy"></span>
                                     </div>
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="hoaDon" placeholder="Nhập">
                                         <label for="hoaDon">Hóa đơn</label>
+                                        <span class="sp-thongbao" id="tbHoaDon"></span>
                                     </div>
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="danhGia" placeholder="Nhập">
                                         <label for="danhGia">Đánh giá</label>
+                                        <span class="sp-thongbao" id="tbDanhGia"></span>
                                     </div>
                                 </div>
 
@@ -158,6 +175,35 @@
                 </div>
             </div>
 
+            <!-- modal chi tiết -->
+
+            <div class="modal fade" id="modalChiTiet" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
+                    <div class="modal-content">
+
+                        <div class="modal-body ">
+
+                            <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="./img/t3.jpg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <div id="chiTiet"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
     </main>
     <footer>
         <!-- place footer here -->

@@ -3,6 +3,7 @@ export class Person {
     name = "";
     address = "";
     email = "";
+    user = 0;
     userChoose = "";
 }
 
